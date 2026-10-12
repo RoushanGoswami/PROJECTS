@@ -9,6 +9,7 @@ export default function Signin() {
   });
 
   const [msg, setMsg] = useState("");
+  const [msgType, setMsgType] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,18 +18,40 @@ export default function Signin() {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-try{
+    try {
+      const res = await api.post("/auth/signin", form);
 
-}catch(err){
-  setMsg(err.response?.data?.message ||"An Error Occurred !")
-}
+      // save the data to localstorage
+      localStorage.setItem("token", res.data.token);
+      setMsg("Sign In Successfully ");
+      setMsgType("success");
 
+      // redirect to home
+      setTimeout(() => {
+        navigate("/home");
+      }, 1000);
+    } catch (err) {
+      setMsg(err.response?.data?.message);
+      setMsgType("error");
+    }
+  };
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-100 text-gray-800">
         <h1 className="text-2xl font-bold text-center">Sign In</h1>
+        {msg && (
+          <p
+            className={`text-center mb-4 px-4 py-3 rounded-lg text-sm font-medium ${
+              msgType === "success"
+                ? "bg-green-50 border border-green-200 text-green-600"
+                : "bg-red-50 border border-red-200 text-red-600"
+            }`}
+          >
+            {msg}
+          </p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <input
             type="email"
@@ -52,7 +75,7 @@ try{
           >
             Sign In
           </button>
-          {msg && <p className="text-red-500 text-center">{msg}</p>}
+         
         </form>
       </div>
     </div>

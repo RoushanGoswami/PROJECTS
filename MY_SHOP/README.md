@@ -6,6 +6,8 @@ A full-stack e-commerce web application built with **React, Vite, Tailwind CSS, 
 
 ---
 
+📸 VIDEO OUTPUT : https://drive.google.com/file/d/1qCEbCB2nDDMXNY0LLyJT5Vd8ooN0mYwU/view?usp=sharing
+
 ## Table of Contents
 
 - [Overview](#overview)
